@@ -1,5 +1,6 @@
 package com.example.cursomc.domain;
 
+import com.example.cursomc.domain.enums.EstadoPagamento;
 
 public class PagamentoComCartao extends Pagamento {
 	

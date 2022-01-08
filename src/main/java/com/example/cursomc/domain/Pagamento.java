@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.example.cursomc.domain.enums.EstadoPagamento;
+
 
 
 @Entity

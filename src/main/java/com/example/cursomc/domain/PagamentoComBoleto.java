@@ -2,6 +2,7 @@ package com.example.cursomc.domain;
 
 import java.util.Date;
 
+import com.example.cursomc.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
