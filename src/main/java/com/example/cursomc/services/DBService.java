@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.cursomc.domain.Categoria;
@@ -19,6 +20,7 @@ import com.example.cursomc.domain.PagamentoComCartao;
 import com.example.cursomc.domain.Pedido;
 import com.example.cursomc.domain.Produto;
 import com.example.cursomc.domain.enums.EstadoPagamento;
+import com.example.cursomc.domain.enums.Perfil;
 import com.example.cursomc.domain.enums.TipoCliente;
 import com.example.cursomc.repositories.CategoriaRepository;
 import com.example.cursomc.repositories.CidadeRepository;
@@ -61,6 +63,9 @@ public class DBService {
 	
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	
 	
@@ -105,16 +110,22 @@ public class DBService {
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
 		
-		Cliente cli1 = new Cliente(null, "Ana Maria", "psgomesbh@gmail.com", "92493599187", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Ana Maria", "psgomesbh@gmail.com", "92493599187", TipoCliente.PESSOAFISICA, pe.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("123", "321"));
+		
+		Cliente cli2 = new Cliente(null, "Maria", "gomes7.paulo@gmail.com", "92493599187", TipoCliente.PESSOAFISICA, pe.encode("123"));
+		cli1.getTelefones().addAll(Arrays.asList("123", "321"));
+		cli2.addPerfil(Perfil.ADMIN);
 		
 		Endereco e1 = new Endereco(null, "rr", "300", "ap1", "jardim", "123", cli1, c3);
 		Endereco e2 = new Endereco(null, "r2", "30", "ap11", "jardimPaulista", "123569", cli1, c2);
+		Endereco e3 = new Endereco(null, "r2", "30", "ap11", "jardimPaulista", "123569", cli2, c2);
 		
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 		
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 		
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
